@@ -15,10 +15,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-      - name: Install Newman
+      - name: Install Newman and NewMan report
         run: |
           npm install -g newman
-          npm install -g newman-reporter-html
+          npm install -g newman-reporter-htmlextra
       - name: Fetch Postman collection
         run: |
           curl -X GET "https://api.getpostman.com/collections/36297517-8844fe77-3b1b-44ae-8e3b-d47b72b6729e" \
@@ -29,7 +29,7 @@ jobs:
             -H "X-Api-Key: ${POSTMAN_API_KEY}" > environment.json
       - name: Run API test with Newman
         run: |
-          newman run collection.json -e environment.json --reporters cli,html --reporter-html-export report.html
+          newman run collection.json -e environment.json --reporters cli,htmlextra --reporter-htmlextra-export report.html
       - name: Upload report
         uses: actions/upload-artifact@v4
         with:
