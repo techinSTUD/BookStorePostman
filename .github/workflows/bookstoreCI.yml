@@ -26,10 +26,12 @@ jobs:
         run: |
           curl -X GET "https://api.getpostman.com/collections/36297517-8844fe77-3b1b-44ae-8e3b-d47b72b6729e" \
             -H "X-Api-Key: ${POSTMAN_API_KEY}" > collection.json
+            shell: bash
       - name: Fetch Postman Environment
         run: |
           curl -X GET "https://api.getpostman.com/environments/36297517-0cabbd05-bab9-4193-92a8-a186ec4dc73f" \
             -H "X-Api-Key: ${POSTMAN_API_KEY}" > environment.json
+            shell: bash
       - name: Run API test with Newman
         run: |
           newman run collection.json -e environment.json --reporters cli,htmlextra --reporter-htmlextra-export report-${{ matrix.os }}.html
