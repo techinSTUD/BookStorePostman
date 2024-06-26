@@ -25,7 +25,7 @@ jobs:
             -H "X-Api-Key: ${POSTMAN_API_KEY}" > collection.json
       - name: Fetch Postman Environment
         run: |
-          curl -X GET "https://api.getpostman.com/environments/36297517-0cabbd05-bab9-4193-92a8-a186ec4dc73f" \
+          curl -X GET "https://api.getpostman.com/environments/36297517-0cabbd05-bab9-4193-92a8-a186ec4dc73f -i 36297517-56e11d90-d5de-49d9-ab67-349db6e09131 -i 36297517-de957cd8-c0e2-4622-a11c-c39599f5b9a2 -i 36297517-24fb48a8-768f-4b62-8449-661b90c3318d -i 36297517-3023ca79-f98d-4a2f-927d-deb90ead3a60 -i 36297517-27263326-1e62-45b3-b56d-acd33ce3106f -i 36297517-bd0a8620-621c-4d62-a1bc-41bb1057d9a5 -i 36297517-35f7a58d-76cc-4d5c-8dab-78f4e1b9687c -i 36297517-b739b6aa-d336-4773-8925-8fca6e40ac93 -i 36297517-846d802c-1127-43b7-b759-85a8df5c2206 -i 36297517-f3c12d56-ec25-4223-baaa-20b2eeb7bfc9 -i 36297517-693b692a-ac20-4d09-bb4c-29d382f7e9ef" \
             -H "X-Api-Key: ${POSTMAN_API_KEY}" > environment.json
       - name: Run API test with Newman
         run: |
