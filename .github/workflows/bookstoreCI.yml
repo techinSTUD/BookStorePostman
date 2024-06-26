@@ -2,15 +2,16 @@ name: With Secrets Automated API tests using CI pipelines throw Postman
 
 on: push
 
-env: 
+env:
   POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
-
+ 
+ 
 jobs:
   automated-api-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js
+      - name: Use node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
@@ -22,15 +23,15 @@ jobs:
         run: |
           curl -X GET "https://api.getpostman.com/collections/36297517-8844fe77-3b1b-44ae-8e3b-d47b72b6729e" \
             -H "X-Api-Key: ${POSTMAN_API_KEY}" > collection.json
-      - name: Fetch Postman environment
+      - name: Fetch Postman Environment
         run: |
           curl -X GET "https://api.getpostman.com/environments/36297517-0cabbd05-bab9-4193-92a8-a186ec4dc73f" \
-            -H "X-Api-Key: ${POSTMAN_API_KEY}" > environment.json 
-      - name: Run API test
+            -H "X-Api-Key: ${POSTMAN_API_KEY}" > environment.json
+      - name: Run API test with Newman
         run: |
-          newman run collection.json -e environment.json --reporters cli,html --reporter-html-report report html
+          newman run collection.json -e environment.json --reporters cli,html --reporter-html-export report.html
       - name: Upload report
         uses: actions/upload-artifact@v4
         with:
-         name: newman-report
-         path: report.html
+          name: newman-report
+          path: report.html
