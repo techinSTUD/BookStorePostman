@@ -1,4 +1,4 @@
-name: With Secrets Automated API tests using CI pipelines
+name: With Secrets Automated API tests using CI pipelines Postman
 
 on: push
 
