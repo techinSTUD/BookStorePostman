@@ -1,37 +1,17 @@
-name: With Secrets Automated API tests using CI pipelines Postman
+name: Automated API tests using Postman CLI
 
 on: push
 
-env:
-  POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
- 
- 
 jobs:
   automated-api-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-      - name: Install Newman
+      - name: Install Postman CLI
         run: |
-          npm install -g newman
-          npm install -g newman-reporter-html
-      - name: Fetch Postman collection
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Run API tests
         run: |
-          curl -X GET "https://api.getpostman.com/collections/36297517-8844fe77-3b1b-44ae-8e3b-d47b72b6729e" \
-            -H "X-Api-Key: ${POSTMAN_API_KEY}" > collection.json
-      - name: Fetch Postman Environment
-        run: |
-          curl -X GET "https://api.getpostman.com/environments/36297517-0cabbd05-bab9-4193-92a8-a186ec4dc73f" \
-            -H "X-Api-Key: ${POSTMAN_API_KEY}" > environment.json
-      - name: Run API test with Newman
-        run: |
-          newman run collection.json -e environment.json --reporters cli,html --reporter-html-export report.html
-      - name: Upload report
-        uses: actions/upload-artifact@v4
-        with:
-          name: newman-report
-          path: report.html
+          postman collection run "36297517-8844fe77-3b1b-44ae-8e3b-d47b72b6729e" -e "36297517-0cabbd05-bab9-4193-92a8-a186ec4dc73f"
